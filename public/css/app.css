@@ -10903,3 +10903,7 @@ a.text-dark:focus {
   }
 }
 
+.text-white {
+  color: white;
+}
+
