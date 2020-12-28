@@ -15,9 +15,15 @@ class CreateStepsTable extends Migration
     {
         Schema::create('steps', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('game_id')->constrained();
             $table->integer('number');
+            $table->unsignedBigInteger('solution');
             $table->string('user_guess')->nullable();
             $table->integer('score')->nullable();
+        });
+
+        Schema::table('steps', function (Blueprint $table) {
+            $table->foreign('solution')->references('id')->on('colors');
         });
     }
 

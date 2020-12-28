@@ -16,7 +16,7 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();   
             $table->string('session_id');   // for anonymous users
-            $table->string('user_id');
+            $table->integer('user_id')->nullable();
             $table->integer('difficulty');
             $table->integer('current_step');
             $table->timestamps();
