@@ -47,14 +47,18 @@ abstract class AbstractGameGenerator {
         $step->solution = $this->getClosestColor($this->mixer->mix($colors));
         $step->save();
     }
-
+    /**
+     * Get model color closer to mixed color result
+     * @param array $rgb
+     * @return App\Models\Color closest color
+     */
     protected function getClosestColor(array $rgb){
-        // get model color closer to mixed color result
         list($red, $green, $blue) = $rgb;
         $closest_color = DB::table("colors")
-            ->select("color_code", "name", "hex", DB::raw("SUM(ABS(red - $red), ABS(green - $green), ABS(blue - $blue)) as delta"))
+            ->select("color_code", "name", "hex", DB::raw("(ABS(red - $red) + ABS(green - $green) + ABS(blue - $blue)) as delta"))
             ->orderBy("delta")
             ->limit(1)
             ->get();
+        return ($closest_color && isset($closest_color[0])) ? $closest_color[0] : null;
     }
 }
