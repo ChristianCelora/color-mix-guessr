@@ -43,7 +43,11 @@ abstract class AbstractGameGenerator {
             unset($color_step);
         }
         // Calculate & update solution
-        $step->solution = $this->mixer->mix($colors);
+        $step->solution = $this->getClosestColor($this->mixer->mix($colors));
         $step->save();
+    }
+
+    protected function getClosestColor(array $rgb){
+        // get model color closer to mixed colros result
     }
 }
