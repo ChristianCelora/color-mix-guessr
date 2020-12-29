@@ -17,6 +17,7 @@ class CreateColorStepTable extends Migration
             $table->id();
             $table->foreignId('step_id')->constrained();
             $table->foreignId('color_id')->constrained();
+            $table->float('weight', 4, 2);
         });
     }
 

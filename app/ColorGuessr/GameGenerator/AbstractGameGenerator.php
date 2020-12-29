@@ -5,6 +5,7 @@ use App\Models\Step;
 use App\Models\Color;
 use App\Models\ColorStep;
 use App\ColorGuessr\ColorMixer\RGBMixer;
+use Illuminate\Support\Facades\DB;
 
 abstract class AbstractGameGenerator {
     /** @var RGBMixer $mixer */
@@ -48,6 +49,12 @@ abstract class AbstractGameGenerator {
     }
 
     protected function getClosestColor(array $rgb){
-        // get model color closer to mixed colros result
+        // get model color closer to mixed color result
+        list($red, $green, $blue) = $rgb;
+        $closest_color = DB::table("colors")
+            ->select("color_code", "name", "hex", DB::raw("SUM(ABS(red - $red), ABS(green - $green), ABS(blue - $blue)) as delta"))
+            ->orderBy("delta")
+            ->limit(1)
+            ->get();
     }
 }

@@ -11,7 +11,7 @@ class ColorStep extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['step_id','color_id'];
+    protected $fillable = ['step_id','color_id','weight'];
 
     public function colors(){
         return $this->hasMany(Color::class);
