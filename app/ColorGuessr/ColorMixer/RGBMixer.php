@@ -10,14 +10,14 @@ class RGBMixer {
     public function mix(array $colors, $weights = array()): array{
         // Get RGB from models
         $rgbs = array();
-        foreach($color as $c){
+        foreach($colors as $c){
             $rgbs[] = array($c->red, $c->blue, $c->green);
         }
         // mix models 
         if(empty($weights)){
             $weights = array_fill(0, count($rgbs), (float)1/count($rgbs));
         }
-        $res = $this->rgbMix($rgbs, $weights);
+        return $this->rgbMix($rgbs, $weights);
     }
     /**
      * RGB is addictive color model. Just do weighted mean of rgb'
