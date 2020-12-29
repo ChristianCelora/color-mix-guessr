@@ -31,9 +31,19 @@ class RGBMixerTest extends TestCase {
         $test_method = self::getMethod("rgbMix");
         $red = array(255, 0, 0);
         $blue = array(0, 0, 255);
-        $green = array(127, 0, 127);
+        $purple = array(127, 0, 127);
         $params = array(array($red, $blue), array(0.5, 0.5));
         $res = $test_method->invokeArgs($this->rgb_mixer, $params);
-        $this->assertEquals($green, $res);
+        $this->assertEquals($purple, $res);
+    }
+
+    public function testRgbMixWeighted(): void {
+        $test_method = self::getMethod("rgbMix");
+        $red = array(255, 0, 0);
+        $blue = array(0, 0, 255);
+        $magenta = array(168, 0, 84);
+        $params = array(array($red, $blue), array(0.66, 0.33));
+        $res = $test_method->invokeArgs($this->rgb_mixer, $params);
+        $this->assertEquals($magenta, $res);
     }
 }
