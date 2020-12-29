@@ -11,5 +11,13 @@ class Step extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['number','user_guess','score'];
+    protected $fillable = ['game_id','number','solution','user_guess','score'];
+
+    public function game(){
+        return $this->belongsTo(Game::class);
+    }
+
+    public function colors(){
+        return $this->hasManyThrough(Color::class, ColorStep::class);
+    }
 }

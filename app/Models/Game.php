@@ -12,4 +12,8 @@ class Game extends Model
     const EASY_DIFFICULTY = 1;
 
     protected $fillable = ['session_id','user_id','difficulty','current_step'];
+
+    public function steps(){
+        return $this->hasMany(Step::class);
+    }
 }
