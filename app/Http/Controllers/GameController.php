@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
-use App\Models\Game;
+use App\ColorGuessr\GameGenerator\EasyGame;
 
 use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    public function newGame(){
+    public function newGame(Request $request){
         Log::debug("new game");
-        $game = new Game();
-        // $game->session_id = 
-        $game->difficulty = Game::EASY_DIFFICULTY;
-        $game->current_step = 1;
-        $game->save();
+        $game_generator = new EasyGame(); // Replace with factory
+        $game = $game_generator->createGame($request->session()->getId());
+        dd($game);
     }
 }

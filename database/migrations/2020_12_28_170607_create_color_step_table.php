@@ -13,7 +13,7 @@ class CreateColorStepTable extends Migration
      */
     public function up()
     {
-        Schema::create('color_step', function (Blueprint $table) {
+        Schema::create('color_steps', function (Blueprint $table) {
             $table->id();
             $table->foreignId('step_id')->constrained();
             $table->foreignId('color_id')->constrained();
@@ -27,6 +27,6 @@ class CreateColorStepTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('color_step');
+        Schema::dropIfExists('color_steps');
     }
 }
