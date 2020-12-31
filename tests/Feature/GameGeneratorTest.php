@@ -4,12 +4,19 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
 use App\ColorGuessr\GameGenerator\EasyGame;
 use Tests\TestCase;
 use \ReflectionClass;
 
 class GameGeneratorTest extends TestCase{
-    // use RefreshDatabase;
+    use RefreshDatabase;
+    /** @override */
+    public function setUp(): void{
+        parent::setUp();
+        // Apply seed after refresh database
+        $this->seed(\Database\Seeders\ColorTableSeeder::class);
+    }
     /**
      * Test private / protected methods
      * @param string $name method name
@@ -24,7 +31,6 @@ class GameGeneratorTest extends TestCase{
      * @dataProvider colorProvider
      */
     public function testGetClosestColor(string $color_code, array $rgb): void{
-        // $this->markTestIncomplete("incomplete test");
         $game_generator = new EasyGame();
         $test_method = self::getMethod("getClosestColor");
 
