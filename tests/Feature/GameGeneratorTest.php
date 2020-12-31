@@ -9,6 +9,7 @@ use Tests\TestCase;
 use \ReflectionClass;
 
 class GameGeneratorTest extends TestCase{
+    // use RefreshDatabase;
     /**
      * Test private / protected methods
      * @param string $name method name
@@ -30,6 +31,14 @@ class GameGeneratorTest extends TestCase{
         $res = $test_method->invokeArgs($game_generator, array($rgb));
         $this->assertObjectHasAttribute("color_code", $res);
         $this->assertEquals($res->color_code, $color_code);
+    }
+
+    public function testCreateStep(): void{
+        $this->markTestIncomplete("incomplete test");
+    }
+
+    public function testCreateGame(): void{
+        $this->markTestIncomplete("incomplete test");
     }
 
     // Providers here
