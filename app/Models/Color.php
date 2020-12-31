@@ -11,5 +11,5 @@ class Color extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['color_code','name','hex','red','blue','green'];
+    protected $fillable = ['color_code','name','hex','red','green','blue'];
 }

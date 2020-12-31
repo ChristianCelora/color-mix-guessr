@@ -50,10 +50,10 @@ class GameGeneratorTest extends TestCase{
     // Providers here
     public function colorProvider(): array{
         return array(
-            array("fern_green", array(79, 66, 121)),
-            array("fern_green", array(75, 60, 115)),
-            array("amber", array(255, 5, 193)),
-            array("amethyst", array(150, 200, 110))
+            array("fern_green", array(79, 121, 66)),
+            array("fern_green", array(75, 115, 60)),
+            array("amber", array(255, 193, 5)),
+            array("amethyst", array(150, 105, 200))
         );
     }
 }

@@ -28,8 +28,8 @@ class ColorTableSeeder extends Seeder
                     $model->name = $color[1];
                     $model->hex = $color[2];
                     $model->red = $color[3];
-                    $model->blue = $color[4];
-                    $model->green = $color[5];
+                    $model->green = $color[4];
+                    $model->blue = $color[5];
                     $model->save();
                 }
             }

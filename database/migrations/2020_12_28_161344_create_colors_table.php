@@ -19,8 +19,8 @@ class CreateColorsTable extends Migration
             $table->string('name');
             $table->string('hex');
             $table->integer('red');
-            $table->integer('blue');
             $table->integer('green');
+            $table->integer('blue');
         });
     }
 
