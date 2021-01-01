@@ -23,12 +23,16 @@
                 {{-- Input colors --}}
                 <div>
                     @foreach ($data["input_colors"] as $color)
-                        <div class="d-flex">
-                            <div class="d-inline">
-                                <div>{{$color['name']}}</div>
-                                <div class="input-color" style="background-color: #{{$color['hex']}}"></div>
+                        <div class="d-inline-flex offset-1">
+                            <div class="row">
+                                <div class="col-8 justify-content-center">
+                                    <div class="text-center">{{$color['name']}}</div>
+                                    <div class="input-color" style="background-color: #{{$color['hex']}}"></div>
+                                </div>
+                                <div class="col-4 input-weight d-flex align-items-center">
+                                    <div>50%</div>
+                                </div>
                             </div>
-                            <div class="d-inline input-weight">50%</div>
                         </div>
                     @endforeach
                 </div>
