@@ -6,11 +6,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use App\ColorGuessr\GameGenerator\EasyGame;
+use App\Models\Game;
+use App\Models\Step;
+use App\Models\Color;
 use Tests\TestCase;
 use \ReflectionClass;
 
 class GameGeneratorTest extends TestCase{
     use RefreshDatabase;
+
+    const TEST_SESSION_ID = "test_session_id_123";
     /** @override */
     public function setUp(): void{
         parent::setUp();
@@ -35,16 +40,46 @@ class GameGeneratorTest extends TestCase{
         $test_method = self::getMethod("getClosestColor");
 
         $res = $test_method->invokeArgs($game_generator, array($rgb));
-        $this->assertObjectHasAttribute("color_code", $res);
+        $this->assertInstanceOf(Color::class, $res);
         $this->assertEquals($res->color_code, $color_code);
     }
 
-    public function testCreateStep(): void{
-        $this->markTestIncomplete("incomplete test");
-    }
-
     public function testCreateGame(): void{
-        $this->markTestIncomplete("incomplete test");
+        $game_generator = new EasyGame();
+        $game_id = $game_generator->createGame(self::TEST_SESSION_ID);
+        $this->assertIsInt($game_id);
+
+        $game_model = Game::find($game_id);
+        $this->assertEquals(self::TEST_SESSION_ID, $game_model->session_id);
+        $this->assertEquals(EasyGame::DIFFICULTY, $game_model->difficulty);
+        $this->assertEquals(1, $game_model->current_step);
+    }
+    /**
+     * @depends testCreateGame
+     */
+    public function testCreateGameSteps(): void{
+        $easy_game_mock = $this->getMockBuilder(EasyGame::CLASS)
+        ->setMethods(["getClosestColor", "createStep"])
+        ->getMock();
+        $fake_color = new Color();
+        $fake_color->id = 1;
+        $easy_game_mock->method("getClosestColor")->will($this->returnValue($fake_color));
+        $easy_game_mock->expects($this->exactly(EasyGame::N_STEPS))->method("createStep");
+        $easy_game_mock->createGame(self::TEST_SESSION_ID);
+    }
+    /**
+     * @depends testCreateGame
+     */
+    public function testCreateStep(): void{
+        $game_generator = new EasyGame();
+        $test_method = self::getMethod("createStep");
+        $game_id = $game_generator->createGame(self::TEST_SESSION_ID);
+        $step_id = $test_method->invokeArgs($game_generator, array($game_id, 1));
+
+        $step_model = Step::find($step_id);
+        $this->assertEquals($game_id, $step_model->game_id);
+        $this->assertEquals(1, $step_model->number);
+        $this->assertNotNull($step_model->solution);
     }
 
     // Providers here

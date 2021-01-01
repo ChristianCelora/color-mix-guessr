@@ -17,7 +17,7 @@ class CreateStepsTable extends Migration
             $table->id();
             $table->foreignId('game_id')->constrained();
             $table->integer('number');
-            $table->unsignedBigInteger('solution');
+            $table->unsignedBigInteger('solution')->nullable();
             $table->string('user_guess')->nullable();
             $table->integer('score')->nullable();
         });

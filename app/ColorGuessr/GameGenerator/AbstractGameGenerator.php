@@ -28,11 +28,11 @@ abstract class AbstractGameGenerator {
         return $game->id;
     }
 
-    protected function createStep(int $game_id, int $index){
+    protected function createStep(int $game_id, int $index): int{
         $step = new Step();
         $step->game_id = $game_id;
         $step->number = $index;
-        $step->solution = -1;
+        $step->solution = null;
         $step->save();
         // Color Picker
         $colors = Color::inRandomOrder()->limit(static::N_COLORS_INPUT)->get();
@@ -40,12 +40,17 @@ abstract class AbstractGameGenerator {
             $color_step = new ColorStep();
             $color_step->color_id = $color->id;
             $color_step->step_id = $step->id;
+            $color_step->weight = round(1/static::N_COLORS_INPUT, 2);
             $color_step->save();
             unset($color_step);
         }
         // Calculate & update solution
-        $step->solution = $this->getClosestColor($this->mixer->mix($colors));
+        $mixed_color_rgb = $this->mixer->mix($colors->all());
+        $solution_model = $this->getClosestColor($mixed_color_rgb);
+        $step->solution = $solution_model->id;
         $step->save();
+
+        return ($step->id) ? $step->id : -1;
     }
     /**
      * Get model color closer to mixed color result
@@ -55,10 +60,10 @@ abstract class AbstractGameGenerator {
     protected function getClosestColor(array $rgb){
         list($red, $green, $blue) = $rgb;
         $closest_color = DB::table("colors")
-            ->select("color_code", "name", "hex", DB::raw("(ABS(red - $red) + ABS(green - $green) + ABS(blue - $blue)) as delta"))
+            ->select("id", DB::raw("(ABS(red - $red) + ABS(green - $green) + ABS(blue - $blue)) as delta"))
             ->orderBy("delta")
             ->limit(1)
             ->get();
-        return ($closest_color && isset($closest_color[0])) ? $closest_color[0] : null;
+        return ($closest_color && isset($closest_color[0])) ? Color::find($closest_color[0]->id) : null;
     }
 }
