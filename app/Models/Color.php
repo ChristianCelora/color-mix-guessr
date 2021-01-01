@@ -12,4 +12,18 @@ class Color extends Model
     public $timestamps = false;
 
     protected $fillable = ['color_code','name','hex','red','green','blue'];
+    /**
+     * Returns color data without ids info
+     * @return array
+     */
+    public function getColorAsArray(): array{
+        return array(
+            "color_code" => $this->color_code,
+            "name" => $this->name,
+            "hex" => $this->hex,
+            "red" => $this->red,
+            "green" => $this->green,
+            "blue" => $this->blue,
+        );
+    }
 }

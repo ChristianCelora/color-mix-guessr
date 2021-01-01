@@ -18,6 +18,11 @@ class Step extends Model
     }
 
     public function colors(){
-        return $this->hasManyThrough(Color::class, ColorStep::class);
+        return $this->hasManyThrough(
+            Color::class, 
+            ColorStep::class, 
+            'step_id', 
+            'id'
+        );
     }
 }

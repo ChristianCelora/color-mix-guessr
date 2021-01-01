@@ -16,4 +16,8 @@ class Game extends Model
     public function steps(){
         return $this->hasMany(Step::class);
     }
+
+    public function resume_step(){
+        return $this->hasMany(Step::class)->where('steps.number', $this->current_step);
+    }
 }
