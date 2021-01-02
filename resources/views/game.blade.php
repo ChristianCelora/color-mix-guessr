@@ -7,7 +7,9 @@
 @section('scripts')
 <script src="{{ asset('js/game.js') }}" defer></script>
 @isset($data["seconds"])
-<script>window.seconds_left = "{{$data["seconds"]}}";</script>
+<script>
+    window.seconds_left = "{{$data["seconds"]}}";
+</script>
 @endisset
 @endsection
 
@@ -42,11 +44,11 @@
                 {{-- Input colors --}}
                 <div class="d-flex justify-content-center">
                     @foreach ($data["input_colors"] as $color)
-                        <div class="d-inline-flex offset-1">
+                        <div class="d-inline-flex offset-1 mt-2">
                             <div class="row">
                                 <div class="col-8 justify-content-center">
-                                    <div class="text-center">{{$color['name']}}</div>
                                     <div class="input-color" style="background-color: #{{$color['hex']}}"></div>
+                                    <div class="text-center mt-2">{{$color['name']}}</div>
                                 </div>
                                 <div class="col-4 text-black-bold d-flex align-items-center">
                                     <div>50%</div>
@@ -56,10 +58,36 @@
                     @endforeach
                 </div>
                 {{-- Mixing gif --}}
-                <div class="d-flex justify-content-center mt-10">
-                    <img id="mixing-gif" src="{{asset("/img/bucket.gif")}}">
+                <div class="d-flex justify-content-center mt-10 col-12">
+                    <div>
+                        <img id="mixing-gif" src="{{asset("/img/bucket.gif")}}">
+                    </div>
                 </div>
                 {{-- Solution --}}
+                @php $color = $data['solution'] @endphp
+                <div class="row mt-10">
+                    <div id="solution-placeholder" class="col-12 d-flex justify-content-center">
+                        <div class="row">
+                            <div class="col-12 justify-content-center">
+                                <div class="text-center">
+                                    Solution
+                                </div>
+                                <div class="input-color mt-3">
+                                    <img class="placeholder" src="{{asset("/img/q_mark_placeholder.png")}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="solution" class="col-12 d-flex justify-content-center" style="display:none !important">
+                        <div class="row">
+                            <div class="col-12 justify-content-center">
+                                <div class="text-center">Solution</div>
+                                <div class="input-color mt-3" style="background-color: #{{$color['hex']}}"></div>
+                                <div class="text-center">{{$color['name']}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         @endisset

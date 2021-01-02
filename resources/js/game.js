@@ -21,12 +21,14 @@ $(document).ready(function(){
         var x = setInterval(function() {
             let seconds_str = (seconds < 10) ? "0"+seconds : seconds;
             timer.children("#time-left").html("00:"+seconds_str);            
-            console.log(seconds);
             seconds -= 1;
             // If the count down is finished, write some text
             if (seconds < 0) {
                 clearInterval(x);
-                timer.children("#time-left").html("TIME'S UP!");
+                timer.children("#time-left").html("00:00");
+                $("#solution").show();
+                $("#solution-placeholder").hide();
+                $("#solution-placeholder").removeClass("d-flex");
             }
         }, 1000);
     });    
