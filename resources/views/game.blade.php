@@ -4,18 +4,29 @@
 <link href="{{ asset('css/game.css') }}" rel="stylesheet">
 @endsection
 
+@section('scripts')
+<script src="{{ asset('js/game.js') }}" defer></script>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         {{-- debug data --}}
         {{-- @php echo(print_r($data)) @endphp --}}
         @isset($data)
-        <div class="col-12 text-center">
+        <div class="col-12 text-center mb-3">
             <h2>Color {{$data["step_number"]}}</h2>
         </div>
         <div class="col-12 row">
             <div class="col-6">
                 {{-- Color picker --}}
+                <div>
+                    <div id="picker"></div>
+                    <div class="pl-4 mt-3">
+                        <span class="text-black-bold">Selected Color:</span>
+                        <div id="values" class="text-black-bold"></div>
+                    </div>
+                </div>
                 {{-- Timer --}}
                 {{-- Score --}}
             </div>
@@ -29,7 +40,7 @@
                                     <div class="text-center">{{$color['name']}}</div>
                                     <div class="input-color" style="background-color: #{{$color['hex']}}"></div>
                                 </div>
-                                <div class="col-4 input-weight d-flex align-items-center">
+                                <div class="col-4 text-black-bold d-flex align-items-center">
                                     <div>50%</div>
                                 </div>
                             </div>
