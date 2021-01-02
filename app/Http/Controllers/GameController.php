@@ -27,6 +27,7 @@ class GameController extends Controller
 
     private function prepareGameData(int $game_id): array{
         $data = array();
+        $game_generator = new EasyGame(); // Replace with factory
 
         $current_step = (Game::find($game_id))->resume_step->first();
         $data["game_id"] = $game_id;
@@ -38,6 +39,7 @@ class GameController extends Controller
         }
         $data["input_colors"] = $input_colors;
         $data["solution"] = (Color::find($current_step->solution))->getColorAsArray();
+        $data["seconds"] = $game_generator->getSeconds();
         
         return $data;
     }

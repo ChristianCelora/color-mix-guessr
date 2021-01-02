@@ -30,9 +30,9 @@
                 {{-- Timer --}}
                 {{-- Score --}}
             </div>
-            <div class="col-6">
+            <div class="col-6 align-item-center">
                 {{-- Input colors --}}
-                <div>
+                <div class="d-flex justify-content-center">
                     @foreach ($data["input_colors"] as $color)
                         <div class="d-inline-flex offset-1">
                             <div class="row">
@@ -48,6 +48,9 @@
                     @endforeach
                 </div>
                 {{-- Mixing gif --}}
+                <div class="d-flex justify-content-center mt-10">
+                    <img id="mixing-gif" src="{{asset("/img/bucket.gif")}}">
+                </div>
                 {{-- Solution --}}
             </div>
         </div>

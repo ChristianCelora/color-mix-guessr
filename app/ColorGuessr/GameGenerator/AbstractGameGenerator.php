@@ -66,4 +66,11 @@ abstract class AbstractGameGenerator {
             ->get();
         return ($closest_color && isset($closest_color[0])) ? Color::find($closest_color[0]->id) : null;
     }
+    /**
+     * Returns seconds to give solution
+     * @return int
+     */
+    public function getSeconds(): int{
+        return static::SECONDS_TO_ANSWER;
+    }
 }

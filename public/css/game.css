@@ -3,8 +3,7 @@ div.input-color {
   height: 100px;
 }
 
-.text-black-bold {
-  color: black;
-  font-weight: bold;
+.mt-10 {
+  margin-top: 6em !important;
 }
 

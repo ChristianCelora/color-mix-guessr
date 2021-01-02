@@ -10907,3 +10907,18 @@ a.text-dark:focus {
   color: white;
 }
 
+.text-black-bold {
+  color: black;
+  font-weight: bold;
+}
+
+#nav-icon {
+  height: 40px;
+  width: 40px;
+}
+
+#mixing-gif {
+  height: 60px;
+  width: 60px;
+}
+
