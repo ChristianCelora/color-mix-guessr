@@ -25,11 +25,12 @@
         <div class="col-12 row">
             <div class="col-6">
                 {{-- Color picker --}}
-                <div>
+                <div id="color-picker">
                     <div id="picker"></div>
-                    <div class="pl-4 mt-3">
+                    <div class="pl-5 mt-5">
                         <span class="text-black-bold">Selected Color:</span>
                         <div id="values" class="text-black-bold"></div>
+                        <div class="input-color mt-2"></div>
                     </div>
                 </div>
                 {{-- Timer --}}

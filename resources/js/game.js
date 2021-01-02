@@ -5,13 +5,18 @@ $(document).ready(function(){
     console.log("game.js init");
 
     var colorPicker = new iro.ColorPicker("#picker");
+    var solution_enabled = true;
+    var div_selected_color = $("#color-picker .input-color");
     colorPicker.on(["color:init", "color:change"], function(color){
-        // Show the current color in different formats
-        values.innerHTML = [
-          "hex: " + color.hexString,
-          "rgb: " + color.rgbString,
-        //   "hsl: " + color.hslString,
-        ].join("<br>");
+        if(solution_enabled){
+            // Show the current color in different formats
+            values.innerHTML = [
+                "hex: " + color.hexString,
+                "rgb: " + color.rgbString,
+            //   "hsl: " + color.hslString,
+            ].join("<br>");            
+            div_selected_color.css("background-color", ""+color.rgbString);
+        }
     });
 
     $("#game-timer").ready(function(){
@@ -29,6 +34,7 @@ $(document).ready(function(){
                 $("#solution").show();
                 $("#solution-placeholder").hide();
                 $("#solution-placeholder").removeClass("d-flex");
+                solution_enabled = false;
             }
         }, 1000);
     });    
