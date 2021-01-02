@@ -6,6 +6,9 @@
 
 @section('scripts')
 <script src="{{ asset('js/game.js') }}" defer></script>
+@isset($data["seconds"])
+<script>window.seconds_left = "{{$data["seconds"]}}";</script>
+@endisset
 @endsection
 
 @section('content')
@@ -28,6 +31,11 @@
                     </div>
                 </div>
                 {{-- Timer --}}
+                <div class="mt-5 ml-5">
+                    <div id="game-timer">
+                        <div id="time-left" class="text-black-bold">00:{{$data["seconds"]}}</div>
+                    </div>
+                </div>
                 {{-- Score --}}
             </div>
             <div class="col-6 align-item-center">
