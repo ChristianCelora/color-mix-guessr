@@ -49,7 +49,6 @@ $(document).ready(function(){
                     },
                     encode: true
                 }).done(function(res){
-                    console.log(res);
                     // Create div for solution
                     if("solution" in res){
                         let solution = res["solution"];
@@ -64,6 +63,8 @@ $(document).ready(function(){
                     $("#score-progress-bar").css("width", score_perc+"%");
                     $("#score-progress-bar").attr("aria-valuenow", score_perc);
                     $("#score-label").html(res["score"]+" / "+res["max_score"]);
+                    // Next step
+                    $("#next-step").show();
                 });
             }
         }, 1000);

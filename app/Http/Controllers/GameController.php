@@ -23,6 +23,23 @@ class GameController extends Controller
         return redirect()->route("play", ["game_id" => $game_id]);
     }
     /**
+     * Updates game step. Redirects to next step if exists. Redirect to result view otherwise
+     * @param Request $request 
+     */
+    public function nextStep(Request $request){
+        $game_id = $request->input("game_id");
+        $game_model = Game::find($game_id);
+        $next_step = $game_model->current_step + 1;
+        // Find next step
+        $step_model = Step::where("game_id", $game_id)->where("number", $next_step)->get();
+        if($step_model->isEmpty()){
+            return redirect()->route("results", ["game_id" => $game_id]);
+        }
+        $game_model->current_step = $next_step;
+        $game_model->save();
+        return redirect()->route("play", ["game_id" => $game_id]);
+    }
+    /**
      * Prepare data to display view of the game
      * @param int $game_id
      */
@@ -73,9 +90,9 @@ class GameController extends Controller
     /**
      * Returns model of current step given game id
      * @param int $game_id
-     * @return App\Models\Step
+     * @return App\Models\Step|null null if not found
      */
-    private function getCurrentStepModel(int $game_id): \App\Models\Step{
+    private function getCurrentStepModel(int $game_id){
         return (Game::find($game_id))->resume_step->first();
     }
     /**
@@ -89,6 +106,5 @@ class GameController extends Controller
         $dg = abs($guess["green"] - $solution["green"]);
         $db = abs($guess["blue"] - $solution["blue"]);
         return self::MAX_SCORE - ($dr + $dg + $db);
-    }
-    
+    }    
 }

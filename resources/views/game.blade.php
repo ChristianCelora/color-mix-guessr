@@ -100,6 +100,16 @@
                         </div>
                     </div>
                 </div>
+                {{-- Next step --}}
+                <div id="next-step" class="row mt-10" style="display: none">
+                    <div class="w-100 d-flex justify-content-center">
+                        <form action="{{route("next-step")}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="game_id" value="{{$data["game_id"]}}">
+                            <button type="submit" class="btn btn-outline-primary">Next</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         @endisset

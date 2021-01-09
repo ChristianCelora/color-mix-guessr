@@ -22,3 +22,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/new-game', [App\Http\Controllers\GameController::class, 'newGame'])->name('new-game');
 Route::get('/play/{game_id}', [App\Http\Controllers\GameController::class, 'displayGame'])->name('play');
+
+Route::post('/next-step', [App\Http\Controllers\GameController::class, 'nextStep'])->name('next-step');
