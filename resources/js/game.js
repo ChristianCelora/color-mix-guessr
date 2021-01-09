@@ -60,6 +60,10 @@ $(document).ready(function(){
                         $("#solution-placeholder").removeClass("d-flex");
                     }
                     // Shows score
+                    let score_perc = Math.round(res["score"]/res["max_score"]*100);
+                    $("#score-progress-bar").css("width", score_perc+"%");
+                    $("#score-progress-bar").attr("aria-valuenow", score_perc);
+                    $("#score-label").html(res["score"]+" / "+res["max_score"]);
                 });
             }
         }, 1000);

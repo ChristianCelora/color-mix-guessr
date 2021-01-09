@@ -42,6 +42,15 @@
                     </div>
                 </div>
                 {{-- Score --}}
+                <div class="mt-5 ml-5">
+                    <div id="score">
+                        <span class="text-black-bold">Score:</span>
+                        <div class="progress">
+                            <div id="score-progress-bar" class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div id="score-label"></div>
+                    </div>
+                </div>
             </div>
             <div class="col-6 align-item-center">
                 {{-- Input colors --}}
