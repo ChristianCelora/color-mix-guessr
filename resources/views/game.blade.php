@@ -9,6 +9,8 @@
 @isset($data["seconds"])
 <script>
     window.seconds_left = "{{$data["seconds"]}}";
+    window.game_id = "{{$data["game_id"]}}";
+    window.route_api_solution = "{{route("get-score")}}";
 </script>
 @endisset
 @endsection
@@ -36,7 +38,7 @@
                 {{-- Timer --}}
                 <div class="mt-5 ml-5">
                     <div id="game-timer">
-                        <div id="time-left" class="text-black-bold">00:{{$data["seconds"]}}</div>
+                        <div id="time-left" class="text-black-bold">00:{{($data["seconds"] < 10) ? "0".$data["seconds"] : $data["seconds"]}}</div>
                     </div>
                 </div>
                 {{-- Score --}}
@@ -83,8 +85,8 @@
                         <div class="row">
                             <div class="col-12 justify-content-center">
                                 <div class="text-center">Solution</div>
-                                <div class="input-color mt-3" style="background-color: #{{$color['hex']}}"></div>
-                                <div class="text-center">{{$color['name']}}</div>
+                                <div class="input-color mt-3"></div>
+                                <div class="color-label text-center"></div>
                             </div>
                         </div>
                     </div>

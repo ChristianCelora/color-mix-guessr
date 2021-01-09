@@ -12,24 +12,34 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
+    const MAX_SCORE = 765; // 255 * 3 
+    /**
+     * Creates new game
+     * @param Request $request 
+     */
     public function newGame(Request $request){
-        Log::debug("new game");
         $game_generator = new EasyGame(); // Replace with factory
         $game_id = $game_generator->createGame($request->session()->getId());
-        // return view("game", array("data" => $data));
         return redirect()->route("play", ["game_id" => $game_id]);
     }
-
+    /**
+     * Prepare data to display view of the game
+     * @param int $game_id
+     */
     public function displayGame(int $game_id){
         $data = $this->prepareGameData($game_id);
         return view("game", array("data" => $data));
     }
-
+    /**
+     * Prepare data to display view of the game
+     * @param int $game_id
+     * @return array
+     */
     private function prepareGameData(int $game_id): array{
         $data = array();
         $game_generator = new EasyGame(); // Replace with factory
 
-        $current_step = (Game::find($game_id))->resume_step->first();
+        $current_step = $this->getCurrentStepModel($game_id);
         $data["game_id"] = $game_id;
         $data["step_id"] = $current_step->id;
         $data["step_number"] = $current_step->number;
@@ -43,4 +53,42 @@ class GameController extends Controller
         
         return $data;
     }
+    /**
+     * Return solution data and calculates scores
+     * @param Request $request 
+     * @return array
+     */
+    public function getSolution(Request $request){
+        $res = array();
+
+        $current_step = $this->getCurrentStepModel($request->input("game_id"));
+        $solution = Color::find($current_step->solution);
+        $res["solution"] = $solution->getColorAsArray();
+        $res["solution_label"] = $solution->name;
+        $res["score"] = $this->calcScore($request->input("guess"), $solution->getColorAsArray());
+        $res["max_score"] = self::MAX_SCORE;
+
+        return $res;
+    }
+    /**
+     * Returns model of current step given game id
+     * @param int $game_id
+     * @return App\Models\Step
+     */
+    private function getCurrentStepModel(int $game_id): \App\Models\Step{
+        return (Game::find($game_id))->resume_step->first();
+    }
+    /**
+     * Calculate score
+     * @param array $guess      rgb guess
+     * @param array $solution   rgb solution
+     * @return int              score 
+     */
+    private function calcScore(array $guess, array $solution): int{
+        $dr = abs($guess["red"] - $solution["red"]);
+        $dg = abs($guess["green"] - $solution["green"]);
+        $db = abs($guess["blue"] - $solution["blue"]);
+        return self::MAX_SCORE - ($dr + $dg + $db);
+    }
+    
 }
