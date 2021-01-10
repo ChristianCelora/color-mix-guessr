@@ -15,6 +15,7 @@ class GameService implements IService{
         return new GameService($dto);
     }
 
+    /** @var App\Models\Game $game */
     private $game;
 
     public function __construct(GameDto $dto){
