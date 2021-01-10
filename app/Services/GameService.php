@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Services\DTO\{IDto, GameDto};
 use App\ColorGuessr\GameGenerator\EasyGame;
 use App\Models\{Game, Step, Color};
+use App\ColorGuessr\ColorConverter\ColorConverter;
 
 class GameService implements IService{
     const MAX_SCORE = 765; // 255 * 3 
@@ -49,8 +50,19 @@ class GameService implements IService{
         $data = array();
         $data["game_id"] = $this->game->id;
         return $data;
+    }    
+    /**
+     * Update user guess and score
+     * @param array $guess
+     * @param int $score
+     * @return void
+     */
+    public function updateUserGuess(array $guess, int $score): void{
+        $step_model = $this->getCurrentStepModel();
+        $step_model->user_guess = ColorConverter::rgbToHex($guess);
+        $step_model->score = $score;
+        $step_model->save();
     }
-    
     /**
      * Prepare data for game step solution
      * @param array $guess User RGB guess
