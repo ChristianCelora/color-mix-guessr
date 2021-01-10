@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use App\ColorGuessr\GameGenerator\EasyGame;
-use App\Models\Game;
-use App\Models\Step;
-use App\Models\Color;
+use App\Models\{Game, Step, Color};
 use \Exception;
+use App\Services\GameService;
+use App\Services\DTO\GameDto;
 
 use Illuminate\Http\Request;
 
@@ -44,31 +44,16 @@ class GameController extends Controller
      * @param int $game_id
      */
     public function displayGame(int $game_id){
-        $data = $this->prepareGameData($game_id);
-        return view("game", array("data" => $data));
+        $game_service = GameService::make(new GameDto($game_id));
+        return view("game", array("data" => $game_service->getGameData()));
     }
     /**
-     * Prepare data to display view of the game
-     * @param int $game_id
-     * @return array
+     * Displays game results
      */
-    private function prepareGameData(int $game_id): array{
-        $data = array();
-        $game_generator = new EasyGame(); // Replace with factory
-
-        $current_step = $this->getCurrentStepModel($game_id);
-        $data["game_id"] = $game_id;
-        $data["step_id"] = $current_step->id;
-        $data["step_number"] = $current_step->number;
-        $input_colors = array();
-        foreach($current_step->colors as $color){
-            $input_colors[] = $color->getColorAsArray();
-        }
-        $data["input_colors"] = $input_colors;
-        $data["solution"] = (Color::find($current_step->solution))->getColorAsArray();
-        $data["seconds"] = $game_generator->getSeconds();
-        
-        return $data;
+    public function displayResults(int $game_id){
+        $game_service = GameService::make(new GameDto($game_id));
+        $data = $game_service->getResultsGameData();
+        return view("results", array("data" => $data));
     }
     /**
      * Return solution data and calculates scores
@@ -77,34 +62,7 @@ class GameController extends Controller
      */
     public function getSolution(Request $request){
         $res = array();
-
-        $current_step = $this->getCurrentStepModel($request->input("game_id"));
-        $solution = Color::find($current_step->solution);
-        $res["solution"] = $solution->getColorAsArray();
-        $res["solution_label"] = $solution->name;
-        $res["score"] = $this->calcScore($request->input("guess"), $solution->getColorAsArray());
-        $res["max_score"] = self::MAX_SCORE;
-
-        return $res;
-    }
-    /**
-     * Returns model of current step given game id
-     * @param int $game_id
-     * @return App\Models\Step|null null if not found
-     */
-    private function getCurrentStepModel(int $game_id){
-        return (Game::find($game_id))->resume_step->first();
-    }
-    /**
-     * Calculate score
-     * @param array $guess      rgb guess
-     * @param array $solution   rgb solution
-     * @return int              score 
-     */
-    private function calcScore(array $guess, array $solution): int{
-        $dr = abs($guess["red"] - $solution["red"]);
-        $dg = abs($guess["green"] - $solution["green"]);
-        $db = abs($guess["blue"] - $solution["blue"]);
-        return self::MAX_SCORE - ($dr + $dg + $db);
-    }    
+        $game_service = GameService::make(new GameDto($request->input("game_id")));
+        return $game_service->getSolutionData($request->input("guess"));
+    }   
 }
