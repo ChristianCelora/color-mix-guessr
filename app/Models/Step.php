@@ -25,4 +25,13 @@ class Step extends Model
             'id'
         );
     }
+
+    public function getStepResultData(): array{
+        return array(
+            "solution" => Color::find($this->solution)->getColorAsArray(),
+            "number" => $this->number,
+            "user_guess" => $this->user_guess,
+            "score" => $this->score,
+        );
+    }
 }

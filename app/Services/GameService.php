@@ -50,6 +50,13 @@ class GameService implements IService{
     public function getResultsGameData(): array{
         $data = array();
         $data["game_id"] = $this->game->id;
+        $data["steps"] = array();
+        foreach($this->game->steps as $step){
+            $s = $step->getStepResultData();
+            $s["max_score"] = self::MAX_SCORE;
+            $data["steps"][] = $s;
+            unset($s);
+        }
         return $data;
     }    
     /**
