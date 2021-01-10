@@ -2,9 +2,40 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        {{-- debug data --}}
-        @php echo(print_r($data)) @endphp
+    <div class="row justify-content-center mt-10">
+        @isset($data)
+        <table class="table col-10">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Number</th>
+                    <th scope="col">User Guess</th>
+                    <th scope="col">Solution</th>
+                    <th scope="col">Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                @isset($data["steps"])
+                @foreach ($data["steps"] as $step)
+                    <tr>
+                        <th scope="row">{{$step["number"]}}</th>
+                        <td>#{{$step["user_guess"]}}</td>
+                        <td>#{{$step["solution"]["hex"]}}</td>
+                        <td>{{$step["score"]."/".$data["max_score"]}}</td>
+                    </tr>
+                @endforeach
+                @endisset
+            </tbody>
+        </table>
+        @endisset
+    </div>
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="redirect btn btn-outline-success" data-url="{{route("new-game")}}">
+            <strong>New game</strong>
+        </div>
+        <div class="col-1"></div>
+        <div class="redirect btn btn-outline-primary" data-url="{{route("index")}}">
+            <strong>Return</strong>
+        </div>
     </div>
 </div>
 @endsection
