@@ -60,7 +60,7 @@ class GameController extends Controller
      * @param Request $request 
      * @return array
      */
-    public function getSolution(Request $request){
+    public function setUserGuess(Request $request){
         $res = array();
         $game_service = GameService::make(new GameDto($request->input("game_id")));
         return $game_service->getSolutionData($request->input("guess"));

@@ -10,7 +10,7 @@
 <script>
     window.seconds_left = "{{$data["seconds"]}}";
     window.game_id = "{{$data["game_id"]}}";
-    window.route_api_solution = "{{route("get-score")}}";
+    window.route_api_solution = "{{route("user-guess")}}";
 </script>
 @endisset
 @endsection

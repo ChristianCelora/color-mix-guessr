@@ -19,4 +19,4 @@ Route::middleware('auth:api')->group(function(){
     });
 });
 
-Route::post('/v1/get-score', [App\Http\Controllers\GameController::class, 'getSolution'])->name('get-score');
+Route::post('/v1/user-guess', [App\Http\Controllers\GameController::class, 'setUserGuess'])->name('user-guess');
