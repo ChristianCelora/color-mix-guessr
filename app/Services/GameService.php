@@ -52,9 +52,15 @@ class GameService implements IService{
         $data["game_id"] = $this->game->id;
         $data["max_score"] = self::MAX_SCORE;
         $data["steps"] = array();
+        $sum_score = 0;
         foreach($this->game->steps as $step){
             $data["steps"][] = $step->getStepResultData();
+            $sum_score += end($data["steps"])["score"];
         }
+        $data["totals"] = array(
+            "score" => $sum_score, 
+            "max_score" => self::MAX_SCORE * sizeof($data["steps"])
+        );
         return $data;
     }    
     /**

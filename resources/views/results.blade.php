@@ -37,6 +37,12 @@
                     </tr>
                 @endforeach
                 @endisset
+                @isset($data["totals"])
+                <tr class="table-success text-center font-weight-bold">
+                    <td colspan=3>Total score</td>
+                    <td>{{$data["totals"]["score"]."/".$data["totals"]["max_score"]}}</td>
+                </tr>
+                @endisset
             </tbody>
         </table>
         @endisset
