@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\ColorGuessr\ColorConverter\ColorConverter;
 
 class Step extends Model
 {
@@ -30,7 +31,7 @@ class Step extends Model
         return array(
             "solution" => Color::find($this->solution)->getColorAsArray(),
             "number" => $this->number,
-            "user_guess" => $this->user_guess,
+            "user_guess" => array("hex" => $this->user_guess, "rgb" => ColorConverter::hexToRgb($this->user_guess)),
             "score" => $this->score,
         );
     }

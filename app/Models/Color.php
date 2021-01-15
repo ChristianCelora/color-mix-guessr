@@ -23,7 +23,7 @@ class Color extends Model
             "hex" => $this->hex,
             "red" => $this->red,
             "green" => $this->green,
-            "blue" => $this->blue,
+            "blue" => $this->blue
         );
     }
 }

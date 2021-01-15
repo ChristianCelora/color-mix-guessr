@@ -53,13 +53,7 @@ class GameService implements IService{
         $data["max_score"] = self::MAX_SCORE;
         $data["steps"] = array();
         foreach($this->game->steps as $step){
-            $step_data = $step->getStepResultData();
-            $step_data["user_guess"] = array(
-                "hex" => $step_data["user_guess"], 
-                "rgb" => ColorConverter::hexToRgb($step_data["user_guess"])
-            );
-            $data["steps"][] = $step_data;
-            unset($step_data);
+            $data["steps"][] = $step->getStepResultData();
         }
         return $data;
     }    

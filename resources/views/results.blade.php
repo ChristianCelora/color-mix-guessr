@@ -19,12 +19,17 @@
                     <tr class="text-center">
                         <th scope="row">{{$step["number"]}}</th>
                         <td>
-                            <div style="background-color: #{{$step["user_guess"]["hex"]}}">
-                                #{{$step["user_guess"]}}
+                            @php $text_color_1 = (array_sum($step["user_guess"]["rgb"]) > 382) ? "black" : "white"; @endphp
+                            <div style="color: {{$text_color_1}}; background-color: #{{$step["user_guess"]["hex"]}}">
+                                #{{$step["user_guess"]["hex"]}}
                             </div>
                         </td>
                         <td>
-                            <div style="background-color: #{{$step["solution"]["hex"]}}">
+                            @php 
+                                $color_sum = $step["solution"]["red"] + $step["solution"]["green"] + $step["solution"]["blue"];
+                                $text_color_2 = ($color_sum > 382) ? "black" : "white"; 
+                            @endphp
+                            <div style="color: {{$text_color_1}}; background-color: #{{$step["solution"]["hex"]}}">
                                 #{{$step["solution"]["hex"]}}
                             </div>
                         </td>
