@@ -6,7 +6,7 @@
         @isset($data)
         <table class="table col-10">
             <thead>
-                <tr class="table-primary">
+                <tr class="table-primary text-center">
                     <th scope="col">Number</th>
                     <th scope="col">User Guess</th>
                     <th scope="col">Solution</th>
@@ -16,10 +16,18 @@
             <tbody>
                 @isset($data["steps"])
                 @foreach ($data["steps"] as $step)
-                    <tr>
+                    <tr class="text-center">
                         <th scope="row">{{$step["number"]}}</th>
-                        <td>#{{$step["user_guess"]}}</td>
-                        <td>#{{$step["solution"]["hex"]}}</td>
+                        <td>
+                            <div style="background-color: #{{$step["user_guess"]["hex"]}}">
+                                #{{$step["user_guess"]}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="background-color: #{{$step["solution"]["hex"]}}">
+                                #{{$step["solution"]["hex"]}}
+                            </div>
+                        </td>
                         <td>{{$step["score"]."/".$data["max_score"]}}</td>
                     </tr>
                 @endforeach

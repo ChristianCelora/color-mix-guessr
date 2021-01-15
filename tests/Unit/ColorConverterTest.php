@@ -12,7 +12,12 @@ class ColorConverterTest extends TestCase {
     public function testRgbToHex($hex, $rgb){
         $this->assertEquals($hex, ColorConverter::rgbToHex($rgb));
     }
-
+    /**
+     * @dataProvider colorProvider
+     */
+    public function testHexToRgb($hex, $rgb){
+        $this->assertEquals($rgb, ColorConverter::hexToRgb($hex));
+    }
     // Providers here
     public function colorProvider(): array{
         return array(
