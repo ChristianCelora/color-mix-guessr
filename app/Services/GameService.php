@@ -77,16 +77,16 @@ class GameService implements IService{
     }
     /**
      * Prepare data for game step solution
-     * @param array $guess User RGB guess
+     * @return array
      */
-    public function getSolutionData(array $guess): array{
+    public function getSolutionData(): array{
         $res = array();
 
         $current_step = $this->getCurrentStepModel();
         $solution = Color::find($current_step->solution);
         $res["solution"] = $solution->getColorAsArray();
         $res["solution_label"] = $solution->name;
-        $res["score"] = $this->calcScore($guess, $solution->getColorAsArray());
+        $res["score"] = $current_step->score;
         $res["max_score"] = self::MAX_SCORE;
 
         return $res;
