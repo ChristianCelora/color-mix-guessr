@@ -64,7 +64,7 @@ class GameController extends Controller
         $res = array();
         $game_service = GameService::make(new GameDto($request->input("game_id")));
         $ret = $game_service->getSolutionData($request->input("guess"));
-        $game_service->updateUserGuess($request->input("guess"), $ret["score"]);
+        $game_service->updateUserGuess($request->input("guess"));
         return $ret;
     }   
 }

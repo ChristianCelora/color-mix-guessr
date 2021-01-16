@@ -66,13 +66,13 @@ class GameService implements IService{
     /**
      * Update user guess and score
      * @param array $guess
-     * @param int $score
      * @return void
      */
-    public function updateUserGuess(array $guess, int $score): void{
+    public function updateUserGuess(array $guess): void{
         $step_model = $this->getCurrentStepModel();
+        $solution = Color::find($step_model->solution);
         $step_model->user_guess = ColorConverter::rgbToHex($guess);
-        $step_model->score = $score;
+        $step_model->score = $this->calcScore($guess, $solution->getColorAsArray());
         $step_model->save();
     }
     /**
