@@ -81,6 +81,37 @@ class GameGeneratorTest extends TestCase{
         $this->assertEquals(1, $step_model->number);
         $this->assertNotNull($step_model->solution);
     }
+    /**
+     * @dataProvider weightsProvider
+     */
+    public function testCalculateWeights(int $n, float $min, float $max): void{
+        $game_generator = new EasyGame();
+        $test_method = self::getMethod("calculateWeights");
+
+        $res = $test_method->invokeArgs($game_generator, array($n, $min, $max));
+        echo(print_r($res));
+        $this->assertEquals($n, sizeof($res));
+        $sum_w = 0; // Sum weights [0,n-1]
+        for($i = 0; $i < sizeof($res)-1; $i++){
+            $weight = $res[$i];
+            $sum_w += $weight;
+            $this->assertThat(
+                $weight,
+                $this->logicalAnd(
+                    $this->greaterThanOrEqual($min),
+                    $this->lessThanOrEqual($max)
+                )
+            );
+        }
+        // Last weight
+        $this->assertThat(
+            $weight,
+            $this->logicalAnd(
+                $this->greaterThanOrEqual($min),
+                $this->lessThanOrEqual($sum_w)
+            )
+        );
+    }
 
     // Providers here
     public function colorProvider(): array{
@@ -89,6 +120,14 @@ class GameGeneratorTest extends TestCase{
             array("fern_green", array(75, 115, 60)),
             array("amber", array(255, 193, 5)),
             array("amethyst", array(150, 105, 200))
+        );
+    }
+
+    public function weightsProvider(): array{
+        return array(
+            array(2, 0.1, 0.9),
+            array(3, 0.1, 0.3),
+            array(2, 0.4, 0.6),
         );
     }
 }

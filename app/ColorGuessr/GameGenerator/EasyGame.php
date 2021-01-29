@@ -8,4 +8,6 @@ class EasyGame extends AbstractGameGenerator {
     const N_STEPS = 3;
     const DIFFICULTY = Game::EASY_DIFFICULTY;
     const SECONDS_TO_ANSWER = 20;
+    const MIN_WEIGHT = 10;
+    const MAX_WEIGHT = 90;
 }

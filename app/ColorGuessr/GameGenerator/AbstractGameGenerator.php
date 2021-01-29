@@ -36,11 +36,12 @@ abstract class AbstractGameGenerator {
         $step->save();
         // Color Picker
         $colors = Color::inRandomOrder()->limit(static::N_COLORS_INPUT)->get();
+        $weights = $this->calculateWeights(static::N_COLORS_INPUT, static::MIN_WEIGHT, static::MAX_WEIGHT);
         foreach($colors as $color){
             $color_step = new ColorStep();
             $color_step->color_id = $color->id;
             $color_step->step_id = $step->id;
-            $color_step->weight = round(1/static::N_COLORS_INPUT, 2);
+            $color_step->weight = array_shift($weights);
             $color_step->save();
             unset($color_step);
         }
@@ -51,6 +52,24 @@ abstract class AbstractGameGenerator {
         $step->save();
 
         return ($step->id) ? $step->id : -1;
+    }
+    /**
+     * @param int $n_weights
+     * @param float $min          Optional. Minuim weight. Range [0,1]
+     * @param float $max          Optional. Maxium weight. Range [0,1]
+     * @return array Array of weights. each weight int [0.1,1]
+     */
+    protected function calculateWeights(int $n_weights, $min = 0, $max = 0): array{
+        $weights = array();
+        $left = 1;
+        for($i = 0; $i < $n_weights-1; $i++){
+            $w = round(rand($min*100, $max*100) / 100,2);
+            $left -= $w;
+            $weights[] = $w;
+            unset($w);
+        }
+        $weights[] = $left; // Last weight has remaining
+        return $weights;
     }
     /**
      * Get model color closer to mixed color result
