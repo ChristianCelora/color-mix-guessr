@@ -19,12 +19,12 @@ class Step extends Model
     }
 
     public function colors(){
-        return $this->hasManyThrough(
+        return $this->belongsToMany(
             Color::class, 
             ColorStep::class, 
             'step_id', 
             'id'
-        );
+        )->withPivot("weight");
     }
 
     public function getStepResultData(): array{

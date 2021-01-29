@@ -17,7 +17,7 @@ class GameServiceTest extends TestCase
 
     /** @var int $test_game_id game id for test */
     private $test_game_id;
-    /** @var EasyGame $game_service */
+    /** @var GameService $game_service */
     private $game_service;
     /**
      * Test private / protected methods
@@ -38,9 +38,16 @@ class GameServiceTest extends TestCase
         $this->test_game_id = $game_generator->createGame("fake_session_id");
         $this->game_service = GameService::make(new GameDto($this->test_game_id));
     }
-
-    public function testGetGameData(){
+    /**
+     * 
+     */
+    public function testGetGameData(): void{
+        $game_generator = new EasyGame();
+        $this->test_game_id = $game_generator->createGame("fake_session_id");
+        $this->game_service = GameService::make(new GameDto($this->test_game_id));
         $actual_data = $this->game_service->getGameData();
+        $game = \App\Models\Game::find($this->test_game_id);
+        echo(print_r($actual_data));
         $this->assertEquals($this->test_game_id, $actual_data["game_id"]);
         $this->assertEquals(1, $actual_data["step_number"]); // First step
         $this->assertIsArray($actual_data["input_colors"]);

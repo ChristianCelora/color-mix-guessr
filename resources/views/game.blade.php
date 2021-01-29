@@ -60,10 +60,10 @@
                             <div class="row">
                                 <div class="col-8 justify-content-center">
                                     <div class="input-color" style="background-color: #{{$color['hex']}}"></div>
-                                    <div class="text-center mt-2">{{$color['name']}}</div>
+                                    <div class="text-center mt-2">{{$color["name"]}}</div>
                                 </div>
                                 <div class="col-4 text-black-bold d-flex align-items-center">
-                                    <div>50%</div>
+                                    <div>{{$color["weight"]}}%</div>
                                 </div>
                             </div>
                         </div>

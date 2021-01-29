@@ -57,7 +57,7 @@ abstract class AbstractGameGenerator {
      * @param int $n_weights
      * @param float $min          Optional. Minuim weight. Range [0,1]
      * @param float $max          Optional. Maxium weight. Range [0,1]
-     * @return array Array of weights. each weight int [0.1,1]
+     * @return array Array of weights. each weight int [0,1]
      */
     protected function calculateWeights(int $n_weights, $min = 0, $max = 0): array{
         $weights = array();

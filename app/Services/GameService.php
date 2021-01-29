@@ -33,9 +33,14 @@ class GameService implements IService{
         $data["game_id"] = $this->game->id;
         $data["step_id"] = $current_step->id;
         $data["step_number"] = $current_step->number;
+        echo(print_r($current_step->colors));
         $input_colors = array();
         foreach($current_step->colors as $color){
-            $input_colors[] = $color->getColorAsArray();
+            // dd($color);
+            $in_c = $color->getColorAsArray();
+            $in_c["weight"] = $color->pivot->weight * 100;
+            $input_colors[] = $in_c;
+            unset($in_c);
         }
         $data["input_colors"] = $input_colors;
         $data["solution"] = (Color::find($current_step->solution))->getColorAsArray();
@@ -102,7 +107,7 @@ class GameService implements IService{
         $dg = abs($guess["green"] - $solution["green"]);
         $db = abs($guess["blue"] - $solution["blue"]);
         return self::MAX_SCORE - ($dr + $dg + $db);
-    } 
+    }
     /**
      * Returns model of current step given game id
      * @return App\Models\Step|null null if not found
