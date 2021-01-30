@@ -62,19 +62,28 @@ class RGBMixerTest extends TestCase {
         $res = $this->rgb_mixer->mix(array($carmine_red, $bright_green));
         $this->assertEquals($expected, $res);
     }
+    /**
+     * @dataProvider colorsWeightedProvider
+     */
+    public function testMixTwoColorsWeighted(array $rgb1, array $rgb2, array $weights, array $expected): void {
+        $color1 = new Color(); // dark_jungle_green - 26 36 33
+        $color1->red = $rgb1[0];
+        $color1->green = $rgb1[1];
+        $color1->blue = $rgb1[2];
+        $color2 = new Color(); // green_ryb - 102 176 50
+        $color2->red = $rgb2[0];
+        $color2->green = $rgb2[1];
+        $color2->blue = $rgb2[2];
 
-    public function testMixTwoColorsWeighted(): void {
-        $dark_jungle_green = new Color(); // dark_jungle_green - 26 36 33
-        $dark_jungle_green->red = 26;
-        $dark_jungle_green->blue = 36;
-        $dark_jungle_green->green = 33;
-        $green_ryb = new Color(); // green_ryb - 102 176 50
-        $green_ryb->red = 102;
-        $green_ryb->blue = 176;
-        $green_ryb->green = 50;
-
-        $expected = array(86, 148, 46);
-        $res = $this->rgb_mixer->mix(array($dark_jungle_green, $green_ryb), array(0.2, 0.8));
+        $res = $this->rgb_mixer->mix(array($color1, $color2), $weights);
         $this->assertEquals($expected, $res);
+    }
+    // Providers here
+    public function colorsWeightedProvider(): array{
+        return array(
+            array(array(26,36,33), array(102,176,50), array(0.2,0.8), array(86,46,148)),
+            array(array(224,176,255), array(145,95,109), array(0.81,0.19), array(208,227,160)),
+            array(array(255,250,250), array(202,44,146), array(0.31,0.69), array(218,178,107)),
+        );
     }
 }

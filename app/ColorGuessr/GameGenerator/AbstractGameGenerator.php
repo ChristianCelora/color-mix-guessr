@@ -37,16 +37,19 @@ abstract class AbstractGameGenerator {
         // Color Picker
         $colors = Color::inRandomOrder()->limit(static::N_COLORS_INPUT)->get();
         $weights = $this->calculateWeights(static::N_COLORS_INPUT, static::MIN_WEIGHT, static::MAX_WEIGHT);
+        $i = 0;
         foreach($colors as $color){
             $color_step = new ColorStep();
             $color_step->color_id = $color->id;
             $color_step->step_id = $step->id;
-            $color_step->weight = array_shift($weights);
+            $color_step->weight = $weights[$i];
             $color_step->save();
             unset($color_step);
+            $i++;
         }
         // Calculate & update solution
-        $mixed_color_rgb = $this->mixer->mix($colors->all());
+        $mixed_color_rgb = $this->mixer->mix($colors->all(), $weights);
+        dd(array($colors->all(), $mixed_color_rgb, $weights));
         $solution_model = $this->getClosestColor($mixed_color_rgb);
         $step->solution = $solution_model->id;
         $step->save();

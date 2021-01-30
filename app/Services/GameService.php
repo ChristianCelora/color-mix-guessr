@@ -33,10 +33,8 @@ class GameService implements IService{
         $data["game_id"] = $this->game->id;
         $data["step_id"] = $current_step->id;
         $data["step_number"] = $current_step->number;
-        echo(print_r($current_step->colors));
         $input_colors = array();
         foreach($current_step->colors as $color){
-            // dd($color);
             $in_c = $color->getColorAsArray();
             $in_c["weight"] = $color->pivot->weight * 100;
             $input_colors[] = $in_c;
