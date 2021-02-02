@@ -27,4 +27,12 @@ class GameGeneratorFactory {
 
         return $obj;
     }
+
+    public static function getGameDifficultyOptions(): array{
+        return array(
+            "easy" => self::EASY_DIFFICULTY,
+            "medium" => self::MEDIUM_DIFFICULTY,
+            "hard" => self::HARD_DIFFICULTY,
+        );
+    }
 }

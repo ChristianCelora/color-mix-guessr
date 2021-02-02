@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+// Route::get('/', function () {
+//     return view('index');
+// })->name('index');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Route::get('/difficulty', [App\Http\Controllers\GameController::class, 'displayConfigGame'])->name('difficulty');
 Route::post('/new-game', [App\Http\Controllers\GameController::class, 'newGame'])->name('new-game');
 Route::get('/play/{game_id}', [App\Http\Controllers\GameController::class, 'displayGame'])->name('play');

@@ -19,13 +19,13 @@
             <div class="row d-flex justify-content-center mt-2">
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-outline-primary text-black-bold px-4 active">
-                        <input type="radio" name="difficulty" id="option1" autocomplete="off" value="1" checked > Easy
+                        <input type="radio" name="difficulty" id="option1" autocomplete="off" value="{{$data["difficulties"]["easy"]}}" checked > Easy
                     </label>
                     <label class="btn btn-outline-warning text-black-bold px-4">
-                        <input type="radio" name="difficulty" id="option2" autocomplete="off" value="2"> Medium
+                        <input type="radio" name="difficulty" id="option2" autocomplete="off" value="{{$data["difficulties"]["medium"]}}"> Medium
                     </label>
                     <label class="btn btn-outline-danger text-black-bold px-4">
-                        <input type="radio" name="difficulty" id="option3" autocomplete="off" value="3"> Hard
+                        <input type="radio" name="difficulty" id="option3" autocomplete="off" value="{{$data["difficulties"]["hard"]}}"> Hard
                     </label>
                 </div>
             </div>
