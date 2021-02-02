@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\ColorGuessr\GameGenerator\EasyGame;
 use App\Models\{Game, Step, Color};
 use \Exception;
@@ -19,7 +20,12 @@ class GameController extends Controller
      */
     public function newGame(Request $request){
         $game_generator = new EasyGame(); // Replace with factory
-        $game_id = $game_generator->createGame($request->session()->getId());
+        $session_id = $request->session()->getId();
+        if(Auth::check()){
+            $game_id = $game_generator->createGame($session_id, Auth::id());
+        }else{
+            $game_id = $game_generator->createGame($session_id);
+        }
         return redirect()->route("play", ["game_id" => $game_id]);
     }
     /**

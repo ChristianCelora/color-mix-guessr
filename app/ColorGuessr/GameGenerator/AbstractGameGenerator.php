@@ -15,9 +15,12 @@ abstract class AbstractGameGenerator {
         $this->mixer = new RGBMixer();
     }
 
-    public function createGame(string $session_id){
+    public function createGame(string $session_id, int $user_id = -1 ){
         $game = new Game();
-        $game->session_id = $session_id; // Guest user
+        $game->session_id = $session_id;
+        if($user_id > 0){
+            $game->user_id = $user_id;
+        }
         $game->difficulty = static::DIFFICULTY;
         $game->current_step = 1;
         $game->save();
