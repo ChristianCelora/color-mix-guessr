@@ -89,7 +89,6 @@ class GameGeneratorTest extends TestCase{
         $test_method = self::getMethod("calculateWeights");
 
         $res = $test_method->invokeArgs($game_generator, array($n, $min, $max));
-        echo(print_r($res));
         $this->assertEquals($n, sizeof($res));
         $sum_w = 0; // Sum weights [0,n-1]
         for($i = 0; $i < sizeof($res)-1; $i++){

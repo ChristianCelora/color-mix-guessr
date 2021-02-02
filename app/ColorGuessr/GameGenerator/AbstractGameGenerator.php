@@ -49,7 +49,6 @@ abstract class AbstractGameGenerator {
         }
         // Calculate & update solution
         $mixed_color_rgb = $this->mixer->mix($colors->all(), $weights);
-        dd(array($colors->all(), $mixed_color_rgb, $weights));
         $solution_model = $this->getClosestColor($mixed_color_rgb);
         $step->solution = $solution_model->id;
         $step->save();
