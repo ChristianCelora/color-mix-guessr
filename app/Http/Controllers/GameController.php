@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    const MAX_SCORE = 765; // 255 * 3 
     /**
      * Creates new game
      * @param Request $request 
