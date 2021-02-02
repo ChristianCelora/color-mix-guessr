@@ -51,14 +51,14 @@ class RGBMixerTest extends TestCase {
     public function testMixTwoColorsNoWeights(): void {
         $carmine_red = new Color(); // bright_green - (255, 0, 56)
         $carmine_red->red = 255;
-        $carmine_red->blue = 0;
         $carmine_red->green = 56;
+        $carmine_red->blue = 0;
         $bright_green = new Color(); // bright_green - (102, 255, 0)
         $bright_green->red = 102;
-        $bright_green->blue = 255;
         $bright_green->green = 0;
+        $bright_green->blue = 255;
 
-        $expected = array(178, 127, 28);
+        $expected = array(178, 28, 127);
         $res = $this->rgb_mixer->mix(array($carmine_red, $bright_green));
         $this->assertEquals($expected, $res);
     }
@@ -81,9 +81,11 @@ class RGBMixerTest extends TestCase {
     // Providers here
     public function colorsWeightedProvider(): array{
         return array(
-            array(array(26,36,33), array(102,176,50), array(0.2,0.8), array(86,46,148)),
-            array(array(224,176,255), array(145,95,109), array(0.81,0.19), array(208,227,160)),
-            array(array(255,250,250), array(202,44,146), array(0.31,0.69), array(218,178,107)),
+            array(array(26,36,33), array(102,176,50), array(0.2,0.8), array(86,148,46)),
+            array(array(224,176,255), array(145,95,109), array(0.81,0.19), array(208,160,227)),
+            array(array(255,250,250), array(202,44,146), array(0.31,0.69), array(218,107,178)),
+            array(array(26,36,33), array(26,36,33), array(0.5,0.5), array(26,36,33)),
+            array(array(26,36,33), array(26,36,33), array(0.2,0.8), array(26,36,33)),
         );
     }
 }
