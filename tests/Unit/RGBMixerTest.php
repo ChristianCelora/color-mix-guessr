@@ -86,6 +86,8 @@ class RGBMixerTest extends TestCase {
             array(array(255,250,250), array(202,44,146), array(0.31,0.69), array(218,107,178)),
             array(array(26,36,33), array(26,36,33), array(0.5,0.5), array(26,36,33)),
             array(array(26,36,33), array(26,36,33), array(0.2,0.8), array(26,36,33)),
+            array(array(42,128,0), array(246,173,198), array(0.87, 0.13), array(68,133,25)),
+            array(array(42,128,0), array(246,173,198), array(0.13, 0.87), array(219,167,172)),
         );
     }
 }

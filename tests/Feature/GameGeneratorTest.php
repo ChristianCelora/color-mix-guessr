@@ -118,7 +118,8 @@ class GameGeneratorTest extends TestCase{
             array("fern_green", array(79, 121, 66)),
             array("fern_green", array(75, 115, 60)),
             array("amber", array(255, 193, 5)),
-            array("amethyst", array(150, 105, 200))
+            array("amethyst", array(150, 105, 200)),
+            array("sap_green", array(68, 133, 25)),
         );
     }
 
