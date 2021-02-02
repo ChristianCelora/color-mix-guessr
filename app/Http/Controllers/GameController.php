@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\ColorGuessr\GameGenerator\EasyGame;
+use App\ColorGuessr\GameGenerator\GameGeneratorFactory;
 use App\Models\{Game, Step, Color};
 use \Exception;
 use App\Services\GameService;
@@ -19,7 +19,7 @@ class GameController extends Controller
      * @param Request $request 
      */
     public function newGame(Request $request){
-        $game_generator = new EasyGame(); // Replace with factory
+        $game_generator = GameGeneratorFactory::create($request->input("difficulty"));
         $session_id = $request->session()->getId();
         if(Auth::check()){
             $game_id = $game_generator->createGame($session_id, Auth::id());
