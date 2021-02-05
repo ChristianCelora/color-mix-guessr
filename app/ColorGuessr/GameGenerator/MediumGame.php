@@ -8,6 +8,6 @@ class MediumGame extends AbstractGameGenerator {
     const N_STEPS = 3;
     const DIFFICULTY = Game::EASY_DIFFICULTY;
     const SECONDS_TO_ANSWER = 20;
-    const MIN_WEIGHT = 0.25;
-    const MAX_WEIGHT = 0.75;
+    const MIN_WEIGHT = 0.05;
+    const MAX_WEIGHT = 0.66;
 }

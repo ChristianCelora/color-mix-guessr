@@ -8,6 +8,6 @@ class HardGame extends AbstractGameGenerator {
     const N_STEPS = 3;
     const DIFFICULTY = Game::EASY_DIFFICULTY;
     const SECONDS_TO_ANSWER = 20;
-    const MIN_WEIGHT = 0.1;
-    const MAX_WEIGHT = 0.9;
+    const MIN_WEIGHT = 0.05;
+    const MAX_WEIGHT = 0.66;
 }
