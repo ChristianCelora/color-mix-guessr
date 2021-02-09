@@ -19,7 +19,7 @@
 <div class="container">
     <div class="row justify-content-center">
         {{-- debug data --}}
-        @php echo(print_r($data)) @endphp
+        {{-- @php echo(print_r($data)) @endphp --}}
         @isset($data)
         <div class="col-12 text-center mb-3">
             <h2>Color {{$data["step_number"]}}</h2>
@@ -54,15 +54,15 @@
             </div>
             <div class="col-6 align-item-center">
                 {{-- Input colors --}}
-                <div class="mx-auto">
-                <div class="d-table-row justify-content-center mx-auto">
+                <div class="mx-auto mt-2 d-flex justify-content-center">
+                <div class="d-table-row">
                     @foreach ($data["input_colors"] as $color)
                         @php 
                             $color_sum = $color["red"] + $color["green"] + $color["blue"];
                             $text_color = ($color_sum > 382) ? "black" : "white"; 
                         @endphp
-                        <div class="d-table-cell mt-2">
-                            <div class="row">
+                        <div class="d-table-cell">
+                            <div>
                                 <div class="col-12 justify-content-center">
                                     <div class="d-flex align-items-center mx-auto input-color" style="background-color: #{{$color['hex']}}">
                                         <div class="font-weight-bold w-100 text-center">
