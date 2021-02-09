@@ -11,5 +11,7 @@ class ColorStep extends Model
 
     public $timestamps = false;
 
+    public $table = "color_steps";
+
     protected $fillable = ['step_id','color_id','weight'];
 }

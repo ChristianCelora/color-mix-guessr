@@ -120,6 +120,7 @@ class GameGeneratorTest extends TestCase{
             array("amber", array(255, 193, 5)),
             array("amethyst", array(150, 105, 200)),
             array("sap_green", array(68, 133, 25)),
+            array("dark_olive_green", array(89, 102, 38)),
         );
     }
 

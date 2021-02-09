@@ -20,10 +20,8 @@ class Step extends Model
 
     public function colors(){
         return $this->belongsToMany(
-            Color::class, 
-            ColorStep::class, 
-            'step_id', 
-            'id'
+            Color::class,
+            (new ColorStep)->table
         )->withPivot("weight");
     }
 

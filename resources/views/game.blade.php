@@ -19,7 +19,7 @@
 <div class="container">
     <div class="row justify-content-center">
         {{-- debug data --}}
-        {{-- @php echo(print_r($data)) @endphp --}}
+        @php echo(print_r($data)) @endphp
         @isset($data)
         <div class="col-12 text-center mb-3">
             <h2>Color {{$data["step_number"]}}</h2>
@@ -54,21 +54,28 @@
             </div>
             <div class="col-6 align-item-center">
                 {{-- Input colors --}}
-                <div class="d-flex justify-content-center">
+                <div class="mx-auto">
+                <div class="d-table-row justify-content-center mx-auto">
                     @foreach ($data["input_colors"] as $color)
-                        <div class="d-inline-flex offset-1 mt-2">
+                        @php 
+                            $color_sum = $color["red"] + $color["green"] + $color["blue"];
+                            $text_color = ($color_sum > 382) ? "black" : "white"; 
+                        @endphp
+                        <div class="d-table-cell mt-2">
                             <div class="row">
-                                <div class="col-8 justify-content-center">
-                                    <div class="input-color" style="background-color: #{{$color['hex']}}"></div>
+                                <div class="col-12 justify-content-center">
+                                    <div class="d-flex align-items-center mx-auto input-color" style="background-color: #{{$color['hex']}}">
+                                        <div class="font-weight-bold w-100 text-center">
+                                            <div style="color: {{$text_color}}">{{$color["weight"]}}%</div>
+                                        </div>
+                                    </div>
                                     <div class="text-center mt-2">{{$color["name"]}}</div>
-                                </div>
-                                <div class="col-4 text-black-bold d-flex align-items-center">
-                                    <div>{{$color["weight"]}}%</div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
+            </div>
                 {{-- Mixing gif --}}
                 <div class="d-flex justify-content-center mt-10 col-12">
                     <div>
