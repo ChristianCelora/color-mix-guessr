@@ -26,17 +26,20 @@ class LeaderboardService implements IService{
     /**
      * 
      */
-    private function makeLeaderboard(): array{
+    private function makeLeaderboard(int $limit = -1): array{
         $leaderboard = array();
 
-        $ret = DB::table("games")
+        $query = DB::table("games")
             ->select("games.id", "games.user_id", DB::raw("SUM(steps.score) as game_score"))
             ->join("steps", "steps.game_id", "=", "games.id")
             ->groupBy("games.id")
-            ->orderBy("game_score", "desc")
-            ->limit(10)
-            ->get();
-        foreach($ret as $game){
+            ->orderBy("game_score", "desc");
+        if($limit > 0){
+            $query->limit($limit);
+        }
+            
+        $res = $query->get();
+        foreach($res as $game){
             $leaderboard[] = $game;
         }
 
