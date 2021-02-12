@@ -105,7 +105,7 @@ class LeaderboardServiceTest extends TestCase {
      * @depends testMakeMethodWithDateFilters
      */
     public function testMakeLeaderboardTimeFilter(LeaderboardService $service){
-        $this->markIncomplete("to do");
+        $this->markTestIncomplete("to do");
     }
 
     private function createTestGames(int $n_games, $users, array $scores): array{
