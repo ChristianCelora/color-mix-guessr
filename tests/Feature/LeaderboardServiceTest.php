@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use \ReflectionClass;
 use \DateTime;
+use \DateInterval;
 
 use App\Services\LeaderboardService;
 use App\Services\DTO\LeaderboardDto;
@@ -90,6 +91,21 @@ class LeaderboardServiceTest extends TestCase {
         $this->assertCount(1, $leaderboard);
         $leaderboard = $test_method->invokeArgs($service, array());
         $this->assertCount($n_games, $leaderboard);
+    }
+
+    public function testMakeMethodWithDateFilters(): LeaderboardService{
+        $from = new DateTime();
+        $from->sub(new DateInterval("P1D"));
+        $to = new DateTime();
+        $leaderboard_service = LeaderboardService::make(new LeaderboardDto($from, $to));
+        $this->assertInstanceOf(LeaderboardService::class, $leaderboard_service);
+        return $leaderboard_service;
+    }
+    /**
+     * @depends testMakeMethodWithDateFilters
+     */
+    public function testMakeLeaderboardTimeFilter(LeaderboardService $service){
+        $this->markIncomplete("to do");
     }
 
     private function createTestGames(int $n_games, $users, array $scores): array{
