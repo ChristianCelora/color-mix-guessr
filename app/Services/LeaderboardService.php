@@ -33,7 +33,7 @@ class LeaderboardService implements IService{
             ->select("games.id", "games.user_id", DB::raw("SUM(steps.score) as game_score"))
             ->join("steps", "steps.game_id", "=", "games.id")
             ->groupBy("games.id")
-            ->orderBy("game_score")
+            ->orderBy("game_score", "desc")
             ->limit(10)
             ->get();
         foreach($ret as $game){

@@ -10,8 +10,13 @@ use \DateTime;
 
 use App\Services\LeaderboardService;
 use App\Services\DTO\LeaderboardDto;
+use App\ColorGuessr\GameGenerator\GameGeneratorFactory;
+use App\Models\Game;
 
 class LeaderboardServiceTest extends TestCase {
+    use RefreshDatabase;
+
+    const SESSION_TEST_PREFIX = "test_";
     /**
      * Test private / protected methods
      * @param string $name method name
@@ -21,6 +26,11 @@ class LeaderboardServiceTest extends TestCase {
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;
+    }
+
+    public function setUp(): void{
+        parent::setUp();
+        $this->seed(\Database\Seeders\ColorTableSeeder::class);
     }
 
     public function testMakeMethod(): LeaderboardService{
@@ -33,9 +43,47 @@ class LeaderboardServiceTest extends TestCase {
     /**
      * @depends testMakeMethod
      */
-    public function testMakeLeaderboard(LeaderboardService $service){
+    public function testMakeLeaderboardNoGames(LeaderboardService $service){
         $test_method = self::getMethod("makeLeaderboard");
         $leaderboard = $test_method->invokeArgs($service, array());
         $this->assertIsArray($leaderboard);
+        $this->assertEmpty($leaderboard);
+    }
+    /**
+     * @depends testMakeMethod
+     */
+    public function testMakeLeaderboardWithGames(LeaderboardService $service){
+        $n_games = 2;
+        $ids = $this->createTestGames($n_games, [[10,10], [20,20]]);
+        $test_method = self::getMethod("makeLeaderboard");
+        $leaderboard = $test_method->invokeArgs($service, array());
+        $this->assertIsArray($leaderboard);
+        $this->assertCount($n_games, $leaderboard);
+        foreach($leaderboard as $game){
+            $this->assertObjectHasAttribute("id", $game);
+            $this->assertObjectHasAttribute("user_id", $game);
+            $this->assertObjectHasAttribute("game_score", $game);
+        }
+        $this->assertEquals($ids[1], $leaderboard[0]->id);
+        $this->assertEquals($ids[0], $leaderboard[1]->id);
+        $this->assertEquals(40, $leaderboard[0]->game_score);
+        $this->assertEquals(20, $leaderboard[1]->game_score);
+    }
+
+    private function createTestGames(int $n_games = 1, $scores): array{
+        $game_ids = array();
+        $game_gen = GameGeneratorFactory::create(GameGeneratorFactory::EASY_DIFFICULTY);
+        for($i = 0; $i < $n_games; $i++){
+            $game_id = $game_gen->createGame(self::SESSION_TEST_PREFIX.$i);
+            $game_ids[] = $game_id;
+            $game_model = Game::find($game_id);
+            $j = 0;
+            foreach($game_model->steps as $step){
+                $step->score = (isset($scores[$i][$j])) ? $scores[$i][$j] : 0;
+                $step->save();
+                $j++;
+            }
+        }
+        return $game_ids;
     }
 }
