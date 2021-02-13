@@ -32,8 +32,14 @@ class LeaderboardService implements IService{
         $query = DB::table("games")
             ->select("games.id", "games.user_id", DB::raw("SUM(steps.score) as game_score"))
             ->join("steps", "steps.game_id", "=", "games.id")
-            ->groupBy("games.id")
-            ->orderBy("game_score", "desc");
+            ->where("ended_at", ">=", $this->from->format("Y-m-d H:i:s"));
+        if($this->from){
+            $query->where("ended_at", ">=", $this->from->format("Y-m-d H:i:s"));
+        } 
+        if($this->to){
+            $query->where("ended_at", "<=", $this->to->format("Y-m-d H:i:s"));
+        }   
+        $query->groupBy("games.id")->orderBy("game_score", "desc");
         if($limit > 0){
             $query->limit($limit);
         }

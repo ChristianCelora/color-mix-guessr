@@ -36,8 +36,7 @@ class LeaderboardServiceTest extends TestCase {
 
     public function testMakeMethod(): LeaderboardService{
         $from = new DateTime();
-        $to = new DateTime();
-        $leaderboard_service = LeaderboardService::make(new LeaderboardDto($from, $to));
+        $leaderboard_service = LeaderboardService::make(new LeaderboardDto($from));
         $this->assertInstanceOf(LeaderboardService::class, $leaderboard_service);
         return $leaderboard_service;
     }
@@ -105,7 +104,23 @@ class LeaderboardServiceTest extends TestCase {
      * @depends testMakeMethodWithDateFilters
      */
     public function testMakeLeaderboardTimeFilter(LeaderboardService $service){
-        $this->markTestIncomplete("to do");
+        $n_games = 2;
+        $users = User::factory()->count(2)->create();
+        $scores = [[10,10], [20,20]];
+        $ids = $this->createTestGames($n_games, $users->all(), $scores);
+
+        $test_method = self::getMethod("makeLeaderboard");
+        $leaderboard = $test_method->invokeArgs($service, array());
+        $this->assertIsArray($leaderboard);
+        $this->assertCount($n_games, $leaderboard);
+
+        $game_model = Game::find($ids[0]);
+        $game_model->ended_at = (new DateTime())->sub(new DateInterval("P2D"));
+        $game_model->save();
+
+        $leaderboard = $test_method->invokeArgs($service, array());
+        $this->assertIsArray($leaderboard);
+        $this->assertCount($n_games-1, $leaderboard);
     }
 
     private function createTestGames(int $n_games, $users, array $scores): array{
@@ -115,6 +130,8 @@ class LeaderboardServiceTest extends TestCase {
             $game_id = $game_gen->createGame(self::SESSION_TEST_PREFIX.$i, ($users[$i])->id);
             $game_ids[] = $game_id;
             $game_model = Game::find($game_id);
+            $game_model->ended_at = (new DateTime())->format("Y-m-d H:i:s");
+            $game_model->save();
             $j = 0;
             foreach($game_model->steps as $step){
                 $step->score = (isset($scores[$i][$j])) ? $scores[$i][$j] : 0;
