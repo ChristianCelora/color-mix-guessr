@@ -35,8 +35,7 @@ class LeaderboardServiceTest extends TestCase {
     }
 
     public function testMakeMethod(): LeaderboardService{
-        $from = new DateTime();
-        $leaderboard_service = LeaderboardService::make(new LeaderboardDto($from));
+        $leaderboard_service = LeaderboardService::make(new LeaderboardDto());
         $this->assertInstanceOf(LeaderboardService::class, $leaderboard_service);
         return $leaderboard_service;
     }
@@ -121,6 +120,10 @@ class LeaderboardServiceTest extends TestCase {
         $leaderboard = $test_method->invokeArgs($service, array());
         $this->assertIsArray($leaderboard);
         $this->assertCount($n_games-1, $leaderboard);
+    }
+
+    public function testGetLeaderboardData(){
+        $this->markTestIncomplete("to do");
     }
 
     private function createTestGames(int $n_games, $users, array $scores): array{

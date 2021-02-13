@@ -31,8 +31,7 @@ class LeaderboardService implements IService{
 
         $query = DB::table("games")
             ->select("games.id", "games.user_id", DB::raw("SUM(steps.score) as game_score"))
-            ->join("steps", "steps.game_id", "=", "games.id")
-            ->where("ended_at", ">=", $this->from->format("Y-m-d H:i:s"));
+            ->join("steps", "steps.game_id", "=", "games.id");
         if($this->from){
             $query->where("ended_at", ">=", $this->from->format("Y-m-d H:i:s"));
         } 
